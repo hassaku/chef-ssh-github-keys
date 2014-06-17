@@ -8,6 +8,12 @@ Requirements
 
 Usage
 -----
+If you use Berkshelf, add this cookbook as follow.
+
+```ruby
+cookbook "ssh-github-keys", github: "hassaku/chef-ssh-github-keys"
+```
+
 Add `ssh-github-keys` recipe in your node's `run_list`
 and attributes which has pair of username and github accounts.
 
