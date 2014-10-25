@@ -1,0 +1,7 @@
+#!/bin/sh
+
+<% @github_users.each do |github_user|%>
+echo "# Public Keys of github user <%= github_user %>" >> ~/.ssh/authorized_keys
+curl https://github.com/<%= github_user %>.keys >> ~/.ssh/authorized_keys
+echo >> ~/.ssh/authorized_keys
+<% end %>
