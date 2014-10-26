@@ -23,8 +23,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-include_recipe 'ssh-keys'
-
 if node[:ssh_github_keys]
   node[:ssh_github_keys].each do |node_user, github_users|
     next unless node_user && github_users
