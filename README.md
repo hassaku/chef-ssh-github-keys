@@ -1,6 +1,6 @@
 ssh-github-keys Cookbook
 ========================
-This cookbook add public keys used in github into authorized_keys.
+This cookbook sets a scheduled task with crontab to add public keys used in github into authorized_keys periodically.
 
 Requirements
 ------------
@@ -30,38 +30,6 @@ Those public keys will be added into /home/`username`/.ssh/authorized_keys.
     "recipe[ssh-github-keys]"
     ...
   ],
-  ...
-}
-```
-
-The ssh-github-keys depends on [chef-ssh-keys](https://github.com/nickola/chef-ssh-keys "chef-ssh-keys").
-Hence, you can add also public keys included in a data bag.
-
-```json
-{
-  ...
-  "ssh_keys": {
-    "ec2-user": ["user_1", "user_2"]
-  },
-  ...
-}
-```
-
-and data_bags/users/user_1.json
-
-```json
-{
-  "id": "user_1",
-  "ssh_keys": "ssh-rsa XXXXXX..."
-}
-```
-
-Set false for "ssh_keys_keep_existing" to remove keys in existence before adding new keys.
-
-```json
-{
-  ...
-  "ssh_keys_keep_existing" : false,
   ...
 }
 ```
