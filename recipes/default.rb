@@ -23,23 +23,23 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-include_recipe 'ssh-keys'
-
 if node[:ssh_github_keys]
   node[:ssh_github_keys].each do |node_user, github_users|
     next unless node_user && github_users
 
-    github_users.each do |github_user|
-      bash "add key of github user #{github_user} into authorized_keys of #{node_user}" do
-        user node_user
-        environment "HOME" => "/home/#{node_user}"
-        keys = "~/.ssh/authorized_keys"
-        code <<-EOS
-        echo "# Public Keys of github user #{github_user}" >> #{keys}
-        curl https://github.com/#{github_user}.keys >> #{keys}
-        echo >> #{keys}
-        EOS
-      end
+    template "#{node_user}'s authorized_keys" do
+      path "/home/#{node_user}/update_authorized_keys.sh"
+      owner node_user
+      group node_user
+      mode  0700
+      source "update_authorized_keys.sh.erb"
+      variables(github_users: github_users)
+    end
+
+    cron "update authorized_keys" do
+      user node_user
+      command "/bin/sh /home/#{node_user}/update_authorized_keys.sh"
+      minute "0,15,30,45"
     end
   end
 end

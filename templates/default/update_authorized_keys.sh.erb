@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+TMPFILE="/tmp/$(whoami)_authorized_keys"
+echo > $TMPFILE
+
+<% @github_users.each do |github_user|%>
+echo "# Public Keys of github user <%= github_user %>" >> $TMPFILE
+curl https://github.com/<%= github_user %>.keys >> $TMPFILE
+echo >> $TMPFILE
+<% end %>
+
+mv $TMPFILE ~/.ssh/authorized_keys
