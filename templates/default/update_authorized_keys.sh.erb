@@ -6,7 +6,7 @@ echo > $TMPFILE
 
 <% @github_users.each do |github_user|%>
 echo "# Public Keys of github user <%= github_user %>" >> $TMPFILE
-curl https://github.com/<%= github_user %>.keys >> $TMPFILE
+curl https://github.com/<%= github_user %>.keys >> $TMPFILE 2>/dev/null
 echo >> $TMPFILE
 <% end %>
 
